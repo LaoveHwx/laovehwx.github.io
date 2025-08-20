@@ -18,7 +18,7 @@
             min-height: 100vh;
             position: relative;
             background-image: url('我们.jpg');
-            background-position: center;
+            background-position: 65% center;
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -65,7 +65,7 @@
             align-items: center;
             text-align: center;
             padding: 30px;
-            background-color: rgba(255, 255, 255, 0.75);
+            background-color: rgba(255, 255, 255, 0.25);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             max-width: 90%;
@@ -101,7 +101,7 @@
         .music-player {
             width: 100%;
             margin-top: 20px;
-            background: linear-gradient(to right, #e91e63, #ff4081);
+            background: linear-gradient(to right, rgba(233, 30, 99, 0.35), rgba(255, 64, 129, 0.35));
             padding: 15px 20px;
             border-radius: 50px;
             display: flex;
@@ -109,6 +109,9 @@
             justify-content: space-between;
             color: white;
             box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px); /* 兼容Safari浏览器 */
+            border: 1px solid rgba(255, 255, 255, 0.2); 
         }
         
         .player-controls {
