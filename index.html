@@ -12,13 +12,17 @@
             box-sizing: border-box;
         }
         
-        body {
+      body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #8a2b53;
             min-height: 100vh;
             position: relative;
-            background: url('我们.jpg') center/cover no-repeat fixed;
-            backdrop-filter: blur(3px); 
+            background-image: url('我们.jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color: rgba(255, 235, 238, 0.9);
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -61,13 +65,14 @@
             align-items: center;
             text-align: center;
             padding: 30px;
-            background-color: rgba(255, 255, 255, 0.85);
+            background-color: rgba(255, 255, 255, 0.75);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             max-width: 90%;
             width: 600px;
             margin: 40px 0;
             backdrop-filter: blur(5px); 
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
         h1 {
