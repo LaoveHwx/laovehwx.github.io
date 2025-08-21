@@ -13,7 +13,7 @@
             color:#8a2b53;
             min-height:100vh;
             background-image:url('我们.jpg');
-            background-position:90% center;
+            background-position:5% center;
             background-size:cover;
             background-repeat:no-repeat;
             background-attachment:fixed;
@@ -376,6 +376,28 @@
     <div id="qixi-text">七夕快乐</div>
 
     <script>
+        /* ========== 爱心背景 ========== */
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            heart.style.opacity = Math.random() * 0.5 + 0.3;
+            
+            // 添加一些随机旋转和摆动效果
+            heart.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+            
+            document.getElementById('hearts').appendChild(heart);
+            setTimeout(() => heart.remove(), 8000);
+        }
+        
+        // 初始创建一些爱心
+        for (let i = 0; i < 20; i++) setTimeout(() => createHeart(), i * 200);
+        // 持续创建爱心
+        setInterval(createHeart, 300);
+
         /* ========== 爱情计时器 ========== */
         function updateLoveTimer() {
             const startDate = new Date('2023-07-15T00:00:00');
@@ -400,28 +422,6 @@
         updateLoveTimer();
         setInterval(updateLoveTimer, 1000);
 
-        /* ========== 爱心背景 ========== */
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.innerHTML = '❤️';
-            heart.classList.add('heart');
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
-            heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
-            heart.style.opacity = Math.random() * 0.5 + 0.3;
-            
-            // 添加一些随机旋转和摆动效果
-            heart.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
-            
-            document.getElementById('hearts').appendChild(heart);
-            setTimeout(() => heart.remove(), 8000);
-        }
-        
-        // 初始创建一些爱心
-        for (let i = 0; i < 20; i++) setTimeout(() => createHeart(), i * 200);
-        // 持续创建爱心
-        setInterval(createHeart, 300);
-
         /* ========== DOMContentLoaded 统一入口 ========== */
         document.addEventListener('DOMContentLoaded', function () {
 
@@ -431,8 +431,11 @@
             const progressContainer = document.getElementById('progressContainer');
             const progress = document.getElementById('progress');
             const currentTimeEl = document.getElementById('currentTime');
-            const volumeBtn = document.getElementById('volumeBtn');
             const volumeSlider = document.getElementById('volumeSlider');
+
+            // 设置默认音量
+            music.volume = 0.7;
+            volumeSlider.value = 0.7;
 
             playBtn.addEventListener('click', () => {
                 if (music.paused) {
@@ -458,10 +461,7 @@
 
             volumeSlider.addEventListener('input', () => {
                 music.volume = volumeSlider.value;
-                volumeBtn.innerHTML = music.volume === 0 ? '<i class="fas fa-volume-mute"></i>' : music.volume > 0.5 ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-down"></i>';
             });
-
-          
 
             /* ---- 页面导航 ---- */
             const navItems = document.querySelectorAll('.nav-item');
