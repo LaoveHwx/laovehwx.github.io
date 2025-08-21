@@ -6,14 +6,13 @@
     <title>给我的最爱</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-      body {
+
+        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #8a2b53;
             min-height: 100vh;
@@ -29,66 +28,7 @@
             align-items: flex-start;
             padding: 20px;
         }
-        /* 爱情计时器样式 */
-.love-timer {
-    text-align: center;
-    margin-bottom: 30px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(216, 27, 96, 0.2);
-    border: 2px solid #ff80ab;
-}
 
-.timer-title {
-    font-size: 1.2rem;
-    color: #d81b60;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-.timer-display {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #e91e63;
-    margin: 10px 0;
-    display flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 5px;
-}
-
-.timer-display span {
-    background: linear-gradient(45deg, #f48fb1, #f06292);
-    padding: 5px 10px;
-    border-radius: 8px;
-    color: white;
-    min-width: 40px;
-    display: inline-block;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.timer-start {
-    font-size: 0.9rem;
-    color: #888;
-    font-style: italic;
-    margin-top: 10px;
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-    .timer-display {
-        font-size: 1.2rem;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .timer-display span {
-        margin: 2px;
-        padding: 3px 8px;
-    }
-}
         /* 爱心容器 */
         #hearts {
             position: fixed;
@@ -99,7 +39,7 @@
             z-index: 0;
             pointer-events: none;
         }
-        
+
         .heart {
             position: absolute;
             font-size: 20px;
@@ -108,13 +48,13 @@
             animation: fall linear forwards;
             pointer-events: none;
         }
-        
+
         @keyframes fall {
             to {
                 transform: translateY(100vh);
             }
         }
-        
+
         /* 内容区域 */
         .content {
             position: relative;
@@ -134,14 +74,14 @@
             backdrop-filter: blur(5px); 
             border: 1px solid rgba(255, 255, 255, 0.25);
         }
-        
+
         h1 {
             font-size: 2.5rem;
             margin-bottom: 20px;
             color: #d81b60;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
+
         .message {
             width: 100%;
             padding: 25px;
@@ -152,11 +92,59 @@
             background: rgba(255, 255, 255, 0.5);
             text-align: left;
         }
-        
+
         .message p {
             margin-bottom: 15px;
         }
-        
+
+        /* 爱情计时器样式 */
+        .love-timer {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(216, 27, 96, 0.2);
+            border: 2px solid #ff80ab;
+            width: 100%;
+        }
+
+        .timer-title {
+            font-size: 1.2rem;
+            color: #d81b60;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e91e63;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .timer-display span {
+            background: linear-gradient(45deg, #f48fb1, #f06292);
+            padding: 5px 10px;
+            border-radius: 8px;
+            color: white;
+            min-width: 40px;
+            display: inline-block;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .timer-start {
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
         /* 音乐播放器样式 */
         .music-player {
             width: 100%;
@@ -170,15 +158,15 @@
             color: white;
             box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
             backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px); /* 兼容Safari浏览器 */
+            -webkit-backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2); 
         }
-        
+
         .player-controls {
             display: flex;
             align-items: center;
         }
-        
+
         .play-btn {
             background: none;
             border: none;
@@ -194,25 +182,25 @@
             justify-content: center;
             transition: background 0.3s;
         }
-        
+
         .play-btn:hover {
             background: rgba(255, 255, 255, 0.2);
         }
-        
+
         .song-info {
             text-align: left;
         }
-        
+
         .song-title {
             font-weight: bold;
             font-size: 1rem;
         }
-        
+
         .artist {
             font-size: 0.8rem;
             opacity: 0.9;
         }
-        
+
         .progress-container {
             flex-grow: 1;
             margin: 0 15px;
@@ -222,25 +210,25 @@
             cursor: pointer;
             position: relative;
         }
-        
+
         .progress {
             height: 100%;
             background: white;
             border-radius: 2px;
             width: 0%;
         }
-        
+
         .time {
             font-size: 0.8rem;
             min-width: 40px;
         }
-        
+
         .volume-container {
             display: flex;
             align-items: center;
             margin-left: 15px;
         }
-        
+
         .volume-btn {
             background: none;
             border: none;
@@ -248,7 +236,7 @@
             cursor: pointer;
             font-size: 1rem;
         }
-        
+
         .volume-slider {
             width: 60px;
             margin-left: 5px;
@@ -257,7 +245,7 @@
             background: rgba(255, 255, 255, 0.3);
             border-radius: 2px;
         }
-        
+
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 12px;
@@ -266,44 +254,44 @@
             background: white;
             cursor: pointer;
         }
-        
+
         .footer {
             margin-top: 30px;
             font-size: 0.9rem;
             color: #888;
         }
-        
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
             }
-            
+
             .content {
                 padding: 20px;
             }
-            
+
             .message {
                 padding: 20px;
                 font-size: 1rem;
             }
-            
+
             .music-player {
                 flex-direction: column;
                 padding: 15px;
                 border-radius: 15px;
             }
-            
+
             .player-controls {
                 width: 100%;
                 margin-bottom: 10px;
             }
-            
+
             .progress-container {
                 width: 100%;
                 margin: 10px 0;
             }
-            
+
             .volume-container {
                 align-self: flex-start;
                 margin-top: 10px;
@@ -314,10 +302,10 @@
 <body>
     <!-- 爱心背景 -->
     <div id="hearts"></div>
-    
+
     <!-- 内容区域 -->
     <div class="content">
-                <!-- === 在这里添加计时器 === -->
+        <!-- 爱情计时器 -->
         <div class="love-timer">
             <div class="timer-title">我们相爱已经</div>
             <div class="timer-display" id="loveTimer">
@@ -330,7 +318,7 @@
             </div>
             <div class="timer-start">直到今天我我也依然爱你</div>
         </div>
-        <!-- === 计时器结束 === -->
+
         <!-- 音乐播放器 -->
         <div class="music-player">
             <div class="player-controls">
@@ -342,13 +330,13 @@
                     <div class="artist">致我们</div>
                 </div>
             </div>
-            
+
             <div class="progress-container" id="progressContainer">
                 <div class="progress" id="progress"></div>
             </div>
-            
+
             <div class="time" id="currentTime">0:00</div>
-            
+
             <div class="volume-container">
                 <button class="volume-btn" id="volumeBtn">
                     <i class="fas fa-volume-up"></i>
@@ -357,66 +345,71 @@
             </div>
         </div>
 
+        <!-- 标题 -->
+        <h1>给我最亲爱的人</h1>
+
+        <!-- 信件内容 -->
+        <div class="message">
+            <p>亲爱的胡婉欣，很开心认识你，居然还跟你做了情侣，觉得自己超级幸运的！！！</p>
+            <p>说实话我没有那么喜欢过一个人，也不太懂爱，但我也是个很好的人，我可以学我愿意改，我可以学着去爱。</p>
+            <p>对你的感觉有时候就像是看见一只很喜欢的小猫，干什么事情都很可爱，惹我不开心了也会觉得“她只是一只小咪而已啦”。想给你吃好吃的，看不得你不开心看不得你不舒服，很想照顾你这只小猫。小咪还小，很多事情都不会，所以我会好好爱你。</p>
+            <p>有时候就是我爱的一个人，一个完完整整的你。好的坏的，那些都是组成你的部分，只要是你，我都愿意接近你，抱住你。同时也想对你撒娇任性的那种喜欢嘿嘿。</p>
+            <p>不知道你会不会感受到我对你的爱是越来越多的，一开始说实话我也不懂什么是爱，很多深刻的东西我根本想不到，在相处过程中，我思考很多，想很多，然后发现自己真的很爱你，没有任何的代名词和公式，没有任何喜欢的类型的形容词，我就是喜欢你，叫胡婉欣的你。</p>
+            <p>我的爱从占有你的，变成现在的，你自由的，我旁观的，需要的时候可以帮助你的，彼此都是独立的。不给你太多压力，毕竟你还是小咪，一个人长这么大，也没人教你怎么爱，我不能要求你太多了。你给我的已经是你能给的最好的了，我珍惜，我庆幸，我幸福，非常谢谢你爱我！！</p>
+            <p>其实曾听着你的过去，我很想穿越过去保护你，为你撑腰，安慰你，抱着告诉你没有任何错，你值得。你的委屈我都很想把你搂进怀里，告诉你安全了，没事了……你的未来我也很担心，我知道宝宝很棒可以照顾好自己，但是难免会遇到生活的挑战，担心你受委屈，担心你又否定自己，哎呀就是想得多啦！总之就是我非常爱你，真心的爱你，想给你好的。</p>
+            <p>人嘛，爱一个人肯定会对她有所期待，所以爱你的心路也很曲折，内耗又自愈，想开了又纠结的，我告诉自己坚持，因为真的特别爱你，需要义无反顾，要勇敢。但是没关系，好在你也在接近我，愿意爱我，愿意为我调整和改变。我知道你已经做到你能做的最好，所以我要珍惜。</p>
+            <p>之前还伤害你那些，回想起来很是很心疼，对不起你我，当时是真不懂，没经历过，请你相信我会用后面的日子让你重新认识我这个又新也旧的黎安锐。</p>
+            <p>直到今天，我还是很爱你，仅仅告知你的那种我爱你。黎安锐陪你成长，陪你度过漫长岁月，我希望我们时间可以长一些，再长一些，再长一抹多……</p>
+            <p>至此，祝我们第三次七夕快乐，我的梦寐以求的爱人，珍惜若宝的，胡婉欣。</p>
+            <p>——爱你的黎安锐</p>
+        </div>
+
         <div class="footer">
             <p>永远爱你的黎安锐 ❤️</p>
         </div>
     </div>
-       <h1>给我最亲爱的人</h1>
 
-        <div class="message">
-    <p>亲爱的胡婉欣，很开心认识你，居然还跟你做了情侣，觉得自己超级幸运的！！！</p>
-    <p>说实话我没有那么喜欢过一个人，也不太懂爱，但我也是个很好的人，我可以学我愿意改，我可以学着去爱。</p>
-    <p>对你的感觉有时候就像是看见一只很喜欢的小猫，干什么事情都很可爱，惹我不开心了也会觉得“她只是一只小咪而已啦”。想给你吃好吃的，看不得你不开心看不得你不舒服，很想照顾你这只小猫。小咪还小，很多事情都不会，所以我会好好爱你。</p>
-    <p>有时候就是我爱的一个人，一个完完整整的你。好的坏的，那些都是组成你的部分，只要是你，我都愿意接近你，抱住你。同时也想对你撒娇任性的那种喜欢嘿嘿。</p>
-    <p>不知道你会不会感受到我对你的爱是越来越多的，一开始说实话我也不懂什么是爱，很多深刻的东西我根本想不到，在相处过程中，我思考很多，想很多，然后发现自己真的很爱你，没有任何的代名词和公式，没有任何喜欢的类型的形容词，我就是喜欢你，叫胡婉欣的你。</p>
-    <p>我的爱从占有你的，变成现在的，你自由的，我旁观的，需要的时候可以帮助你的，彼此都是独立的。不给你太多压力，毕竟你还是小咪，一个人长这么大，也没人教你怎么爱，我不能要求你太多了。你给我的已经是你能给的最好的了，我珍惜，我庆幸，我幸福，非常谢谢你爱我！！</p>
-    <p>其实曾听着你的过去，我很想穿越过去保护你，为你撑腰，安慰你，抱着告诉你没有任何错，你值得。你的委屈我都很想把你搂进怀里，告诉你安全了，没事了……你的未来我也很担心，我知道宝宝很棒可以照顾好自己，但是难免会遇到生活的挑战，担心你受委屈，担心你又否定自己，哎呀就是想得多啦！总之就是我非常爱你，真心的爱你，想给你好的。</p>
-    <p>人嘛，爱一个人肯定会对她有所期待，所以爱你的心路也很曲折，内耗又自愈，想开了又纠结的，我告诉自己坚持，因为真的特别爱你，需要义无反顾，要勇敢。但是没关系，好在你也在接近我，愿意爱我，愿意为我调整和改变。我知道你已经做到你能做的最好，所以我要珍惜。</p>
-    <p>之前还伤害你那些，回想起来很是很心疼，对不起你我，当时是真不懂，没经历过，请你相信我会用后面的日子让你重新认识我这个又新也旧的黎安锐。</p>
-    <p>直到今天，我还是很爱你，仅仅告知你的那种我爱你。黎安锐陪你成长，陪你度过漫长岁月，我希望我们时间可以长一些，再长一些，再长一抹多……</p>
-    <p>至此，祝我们第三次七夕快乐，我的梦寐以求的爱人，珍惜若宝的，胡婉欣。</p>
-    <p>——爱你的黎安锐</p>
-</div>
     <!-- 音频元素 -->
     <audio id="music">
        <source src="我们.mp3" type="audio/mpeg">
         您的浏览器不支持音频元素。
     </audio>
-    
+
     <script>
         // 爱情计时器功能
-function updateLoveTimer() {
-    // 设置开始日期：2023年7月15日
-    const startDate = new Date('2023-07-15T00:00:00');
-    const now = new Date();
-    
-    // 计算时间差（毫秒）
-    const diff = now - startDate;
-    
-    // 计算各时间单位
-    const seconds = Math.floor(diff / 1000) % 60;
-    const minutes = Math.floor(diff / (1000 * 60)) % 60;
-    const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    
-    // 计算年和月（近似值）
-    const years = Math.floor(days / 365);
-    const remainingDays = days % 365;
-    const months = Math.floor(remainingDays / 30);
-    const finalDays = remainingDays % 30;
-    
-    // 更新显示
-    document.getElementById('years').textContent = years;
-    document.getElementById('months').textContent = months;
-    document.getElementById('days').textContent = finalDays;
-    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-}
+        function updateLoveTimer() {
+            // 设置开始日期：2023年7月15日
+            const startDate = new Date('2023-07-15T00:00:00');
+            const now = new Date();
+            
+            // 计算时间差（毫秒）
+            const diff = now - startDate;
+            
+            // 计算各时间单位
+            const seconds = Math.floor(diff / 1000) % 60;
+            const minutes = Math.floor(diff / (1000 * 60)) % 60;
+            const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            // 计算年和月（近似值）
+            const years = Math.floor(days / 365);
+            const remainingDays = days % 365;
+            const months = Math.floor(remainingDays / 30);
+            const finalDays = remainingDays % 30;
+            
+            // 更新显示
+            document.getElementById('years').textContent = years;
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = finalDays;
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
 
-// 初始更新并设置定时器
-updateLoveTimer();
-setInterval(updateLoveTimer, 1000); // 每秒更新一次
+        // 初始更新并设置定时器
+        updateLoveTimer();
+        setInterval(updateLoveTimer, 1000); // 每秒更新一次
+
         // 创建飘落的爱心
         function createHeart() {
             const heart = document.createElement('div');
