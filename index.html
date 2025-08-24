@@ -209,7 +209,15 @@
                         <span id="minutes">0</span>分
                         <span id="seconds">0</span>秒
                     </div>
-                    <div class="timer-start">直到也依然爱你！</div>
+                    
+                    <div class="timer-start">直到今天也依然爱你！</div>
+                    <!-- 新增倒计时区域 -->
+    <div class="timer-start" id="countDownArea">
+        <div id="hundredDay"></div>
+        <div id="yearDay"></div>
+        <div id="day328"></div>
+    </div>
+</div>
                 </div>
 
                 <!-- 音乐播放器 -->
@@ -302,28 +310,70 @@
         setInterval(createHeart, 300);
 
         /* ========== 爱情计时器 ========== */
-        function updateLoveTimer() {
-            const startDate = new Date('2023-07-15T00:00:00');
-            const now = new Date();
-            const diff = now - startDate;
-            const seconds = Math.floor(diff / 1000) % 60;
-            const minutes = Math.floor(diff / (1000 * 60)) % 60;
-            const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const years = Math.floor(days / 365);
-            const remainingDays = days % 365;
-            const months = Math.floor(remainingDays / 30);
-            const finalDays = remainingDays % 30;
+       /* ========== 爱情计时器 与 倒计时 ========== */
+(function(){
+    const START_LOVE = new Date('2023-07-15T00:00:00');
+    const START_328  = new Date('2023-03-28T00:00:00');
+    const MS_DAY = 24*3600*1000;
 
-            document.getElementById('years').textContent = years;
-            document.getElementById('months').textContent = months;
-            document.getElementById('days').textContent = finalDays;
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-        }
-        updateLoveTimer();
-        setInterval(updateLoveTimer, 1000);
+    const $ = id => document.getElementById(id);
+
+    /* 1. 主计时器：年/月/日/时/分/秒 */
+    function updateLoveTimer(){
+        const now = new Date();
+        const diff = now - START_LOVE;
+
+        const seconds = Math.floor(diff/1000)%60;
+        const minutes = Math.floor(diff/(1000*60))%60;
+        const hours   = Math.floor(diff/(1000*60*60))%24;
+        const days    = Math.floor(diff/MS_DAY);
+
+        const years = Math.floor(days/365);
+        const rem   = days % 365;
+        const months = Math.floor(rem/30);
+        const finalDays = rem % 30;
+
+        $('years'  ).textContent = years;
+        $('months' ).textContent = months;
+        $('days'   ).textContent = finalDays;
+        $('hours'  ).textContent = hours.toString().padStart(2,'0');
+        $('minutes').textContent = minutes.toString().padStart(2,'0');
+        $('seconds').textContent = seconds.toString().padStart(2,'0');
+
+        /* 2. 整百天倒计时 */
+        const nextHundred = Math.ceil((days+1)/100)*100;
+        const leftHundred = nextHundred - days;
+        $('hundredDay').textContent =
+            leftHundred===0
+            ? `🎉 今天是第 ${nextHundred} 天！`
+            : `距离第 ${nextHundred} 天还有 ${leftHundred} 天`;
+
+        /* 3. 周年倒计时 */
+        const yearsPassed = Math.floor(days/365);
+        const nextYearDay = (yearsPassed+1)*365;
+        const leftYearDay = nextYearDay - days;
+        $('yearDay').textContent =
+            leftYearDay===0
+            ? `🎂 今天是我们 ${yearsPassed+1} 周年！`
+            : `距离 ${yearsPassed+1} 周年还有 ${leftYearDay} 天`;
+
+        /* 4. 3·28 节日倒计时（仅倒计时，不显示已过几年） */
+        const thisYear328 = new Date(now.getFullYear(), 2, 28); // 2 = 3月
+        const next328 = now < thisYear328 ? thisYear328 : new Date(now.getFullYear()+1, 2, 28);
+        const left328 = next328 - now;
+        const d = Math.floor(left328/MS_DAY);
+        const h = Math.floor(left328/3600000)%24;
+        const m = Math.floor(left328/60000)%60;
+        const s = Math.floor(left328/1000)%60;
+        $('day328').textContent =
+            left328===0
+            ? '🌸 今天是 3·28 节日！'
+            : `距离 3·28 节日还有 ${d} 天 ${h} 时 ${m} 分 ${s} 秒`;
+    }
+
+    updateLoveTimer();
+    setInterval(updateLoveTimer,1000);
+})();
 
         /* ========== 音乐播放器 ========== */
         const music = document.getElementById('music');
@@ -378,7 +428,7 @@
 
         /* ========== Supabase 配置 ========== */
         const supabaseUrl  = 'https://pqqfvciynvneypzbfqkk.supabase.co';
-        const supabaseKey  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhbmFzZSIsInJlZiI6InBxcWZ2Y2l5bnZuZXlwemJmcWtrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwMjExOTgsImV4cCI6MjA3MTU5NzE5OH0.C04g1knnbLB3desOWhjlxWZ2O5srr7BmDE38P5Ugc3o';
+        const supabaseKey  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcWZ2Y2l5bnZuZXlwemJmcWtrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwMjExOTgsImV4cCI6MjA3MTU5NzE5OH0.C04g1knnbLB3desOWhjlxWZ2O5srr7BmDE38P5Ugc3o';
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
         /* ========== 云端存储功能 ========== */
