@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>给我的最爱hwx</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* ===== 公共样式 ===== */
         *{margin:0;padding:0;box-sizing:border-box}
@@ -13,7 +12,7 @@
             font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
             color:#8a2b53;
             min-height:100vh;
-            background-image:url('我们.jpg');
+            background-image:url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80');
             background-position:5% center;
             background-size:cover;
             background-repeat:no-repeat;
@@ -369,7 +368,7 @@
     </div>
 
     <!-- 音频 -->
-    <audio id="music"><source src="我们.mp3" type="audio/mpeg">您的浏览器不支持音频元素。</audio>
+    <audio id="music"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">您的浏览器不支持音频元素。</audio>
 
     <!-- 烟花按钮 & 容器 -->
     <button id="fireworksBtn"><i class="fas fa-fire"></i> 点燃爱的烟花</button>
@@ -481,104 +480,8 @@
                 // 显示对应页面
                 pages.forEach(page => page.classList.remove('active'));
                 document.getElementById(`${pageId}-page`).classList.add('active');
-                
-                // 切换到相应页面时重新加载数据
-                if (pageId === 'happy') {
-                    loadEntries('happy');
-                } else if (pageId === 'trash') {
-                    loadEntries('unhappy');
-                }
             });
         });
-
-        /* ========== 云端存储功能 ========== */
-        const supabaseUrl = 'https://pqqfvciynvneypzbfqkk.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxcWZ2Y2l5bnZuZXlwemJmcWtrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwMjExOTgsImV4cCI6MjA3MTU5NzE5OH0.C04g1knnbLB3desOWhjlxWZ2O5srr7BmDE38P5Ugc3o';
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-        // 绑定保存按钮事件
-        document.getElementById('save-happy').addEventListener('click', () => {
-            const val = document.getElementById('happy-text').value.trim();
-            if (val) saveEntry('happy', val);
-        });
-
-        document.getElementById('save-trash').addEventListener('click', () => {
-            const val = document.getElementById('unhappy-text').value.trim();
-            if (val) saveEntry('unhappy', val);
-        });
-
-        const saveEntry = async (type, text) => {
-            try {
-                // 获取用户IP（简单识别）
-                const ipResponse = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipResponse.json();
-                const userIp = ipData.ip;
-                
-                // 插入数据库 - 注意表名要与SQL策略中的一致
-                const tableName = type === 'happy' ? 'happy' : 'unhappy';
-                const { data, error } = await supabase
-                    .from(tableName)
-                    .insert([{ text, user_ip: userIp }]);
-                
-                if (error) throw error;
-                
-                // 清空输入框
-                document.getElementById(`${type}-text`).value = '';
-                
-                // 重新加载条目
-                loadEntries(type);
-                
-                alert('保存成功！');
-            } catch (error) {
-                console.error('保存错误:', error);
-                alert('保存失败，请稍后重试');
-                // 失败时使用本地存储作为备用
-                const entries = JSON.parse(localStorage.getItem(`${type}Entries`)) || [];
-                entries.unshift({ text, date: new Date().toLocaleString('zh-CN') });
-                localStorage.setItem(`${type}Entries`, JSON.stringify(entries));
-                displayLocalEntries(type);
-            }
-        };
-
-        const loadEntries = async (type) => {
-            try {
-                const tableName = type === 'happy' ? 'happy' : 'unhappy';
-                const { data, error } = await supabase
-                    .from(tableName)
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error) throw error;
-                
-                const container = document.getElementById(`${type}-entries`);
-                container.innerHTML = data.map(entry => `
-                    <div class="entry-item ${type === 'unhappy' ? 'trash-item' : ''}">
-                        <div class="entry-date">${new Date(entry.created_at).toLocaleString('zh-CN')}</div>
-                        <div>${entry.text}</div>
-                        <div class="entry-meta">来自用户: ${entry.user_ip}</div>
-                    </div>`).join('');
-            } catch (error) {
-                console.error('加载错误:', error);
-                // 如果网络错误，显示本地存储的内容
-                displayLocalEntries(type);
-            }
-        };
-
-        // 显示本地存储的备用内容
-        const displayLocalEntries = (type) => {
-            const container = document.getElementById(`${type}-entries`);
-            const entries = JSON.parse(localStorage.getItem(`${type}Entries`)) || [];
-            container.innerHTML = entries.map((e, i) => `
-                <div class="entry-item ${type === 'unhappy' ? 'trash-item' : ''}">
-                    <div class="entry-date">${e.date}</div>
-                    <div>${e.text}</div>
-                    <div class="entry-meta">(本地存储)</div>
-                </div>`).join('');
-        };
-
-        // 初始加载条目
-        loadEntries('happy');
-        loadEntries('unhappy');
 
         /* ========== 烟花特效 ========== */
         const fireworksBtn = document.getElementById('fireworksBtn');
@@ -624,13 +527,17 @@
             explode() {
                 this.hasExploded = true;
                 this.element.remove();
-                for (let i = 0; i < 60 + Math.floor(Math.random() * 40); i++) this.particles.push(new Particle(this.x, this.y, this.color));
+                for (let i = 0; i < 60 + Math.floor(Math.random() * 40); i++) {
+                    this.particles.push(new Particle(this.x, this.y, this.color));
+                }
             }
         }
 
         class Particle {
             constructor(x, y, color) {
-                this.x = x; this.y = y; this.color = color;
+                this.x = x; 
+                this.y = y; 
+                this.color = color;
                 this.angle = Math.random() * Math.PI * 2;
                 this.speed = 0.5 + Math.random() * 3;
                 this.friction = 0.95;
@@ -658,30 +565,93 @@
 
         function animateFireworks() {
             animationId = requestAnimationFrame(animateFireworks);
-            if (Math.random() < 0.05 && fireworks.length < 15) fireworks.push(new Firework());
-            for (let i = fireworks.length - 1; i >= 0; i--) if (fireworks[i].update()) fireworks.splice(i, 1);
+            
+            // 随机生成新烟花
+            if (Math.random() < 0.05 && fireworks.length < 15) {
+                fireworks.push(new Firework());
+            }
+            
+            // 更新所有烟花
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                if (fireworks[i].update()) {
+                    fireworks.splice(i, 1);
+                }
+            }
         }
 
         fireworksBtn.addEventListener('click', () => {
+            // 显示烟花容器
             fireworksContainer.style.display = 'block';
+            
             // 清除现有烟花
             fireworksContainer.innerHTML = '';
             fireworks = [];
             
+            // 显示文字
             qixiText.style.opacity = '1'; 
             qixiText.style.transform = 'translate(-50%, -50%) scale(1)';
             
-            if (animationId) cancelAnimationFrame(animationId);
+            // 取消之前的动画（如果有）
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            
+            // 开始烟花动画
             animateFireworks();
             
+            // 15秒后停止
             setTimeout(() => {
-                if (animationId) cancelAnimationFrame(animationId); 
-                animationId = null;
+                if (animationId) {
+                    cancelAnimationFrame(animationId); 
+                    animationId = null;
+                }
                 qixiText.style.opacity = '0'; 
                 qixiText.style.transform = 'translate(-50%, -50%) scale(0)';
-                setTimeout(() => fireworksContainer.style.display = 'none', 2000);
+                setTimeout(() => {
+                    fireworksContainer.style.display = 'none';
+                }, 2000);
             }, 15000);
         });
+
+        /* ========== 本地存储功能 ========== */
+        // 绑定保存按钮事件
+        document.getElementById('save-happy').addEventListener('click', () => {
+            const val = document.getElementById('happy-text').value.trim();
+            if (val) saveEntry('happy', val);
+        });
+
+        document.getElementById('save-trash').addEventListener('click', () => {
+            const val = document.getElementById('unhappy-text').value.trim();
+            if (val) saveEntry('unhappy', val);
+        });
+
+        const saveEntry = (type, text) => {
+            const entries = JSON.parse(localStorage.getItem(`${type}Entries`)) || [];
+            entries.unshift({ text, date: new Date().toLocaleString('zh-CN') });
+            localStorage.setItem(`${type}Entries`, JSON.stringify(entries));
+            
+            // 清空输入框
+            document.getElementById(`${type}-text`).value = '';
+            
+            // 重新加载条目
+            loadEntries(type);
+            
+            alert('保存成功！');
+        };
+
+        const loadEntries = (type) => {
+            const container = document.getElementById(`${type}-entries`);
+            const entries = JSON.parse(localStorage.getItem(`${type}Entries`)) || [];
+            container.innerHTML = entries.map((e, i) => `
+                <div class="entry-item ${type === 'unhappy' ? 'trash-item' : ''}">
+                    <div class="entry-date">${e.date}</div>
+                    <div>${e.text}</div>
+                </div>`).join('');
+        };
+
+        // 初始加载条目
+        loadEntries('happy');
+        loadEntries('unhappy');
     </script>
 </body>
 </html>
