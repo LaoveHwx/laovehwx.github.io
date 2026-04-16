@@ -16,17 +16,42 @@
             font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
             color:#8a2b53;
             min-height:100vh;
-            background-image:url('1225.jpg');
-            background-position:5% center;
-            background-size:cover;
-            background-repeat:no-repeat;
-            background-attachment:fixed;
-            background-color:rgba(255,235,238,.9);
+            background-color:#ffecef;
             display:flex;
             justify-content:center;
             align-items:flex-start;
             padding:20px;
             overflow-x: hidden;
+            position:relative;
+        }
+        .bg-slideshow{
+            position:fixed;
+            inset:0;
+            z-index:-2;
+            pointer-events:none;
+            overflow:hidden;
+        }
+        .bg-slide{
+            position:absolute;
+            inset:0;
+            background-position:center center;
+            background-size:cover;
+            background-repeat:no-repeat;
+            opacity:0;
+            transform:scale(1.03);
+            transition:opacity .9s ease, transform 2.9s ease;
+            will-change:opacity,transform;
+        }
+        .bg-slide.is-active{
+            opacity:1;
+            transform:scale(1);
+        }
+        .bg-overlay{
+            position:fixed;
+            inset:0;
+            z-index:-1;
+            pointer-events:none;
+            background:linear-gradient(180deg, rgba(255, 245, 247, 0.15), rgba(255, 225, 234, 0.28));
         }
         #hearts{position:fixed;width:100%;height:100%;top:0;left:0;z-index:0;pointer-events:none}
         .heart{position:absolute;font-size:20px;color:#ff4d6d;opacity:.7;animation:fall linear forwards;pointer-events: none;z-index: 0;}
@@ -184,6 +209,12 @@
     </style>
 </head>
 <body>
+    <div class="bg-slideshow" aria-hidden="true">
+        <div class="bg-slide is-active" id="bgSlideA"></div>
+        <div class="bg-slide" id="bgSlideB"></div>
+    </div>
+    <div class="bg-overlay" aria-hidden="true"></div>
+
     <!-- 爱心背景 -->
     <div id="hearts"></div>
 
@@ -307,6 +338,57 @@
     <div id="qixi-text">七夕快乐</div>
 
     <script>
+        /* ========== 背景轮播（2s切换，0.9s过渡） ========== */
+        (function () {
+            const requestedOrder = ['0.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '1225.jpg'];
+            const fallbackImages = ['我们.jpg'];
+            const switchInterval = 2000;
+            const slideA = document.getElementById('bgSlideA');
+            const slideB = document.getElementById('bgSlideB');
+            const slides = [slideA, slideB];
+
+            let imageIndex = 0;
+            let activeSlideIndex = 0;
+
+            function checkImage(url) {
+                return new Promise(resolve => {
+                    const img = new Image();
+                    img.onload = () => resolve(url);
+                    img.onerror = () => resolve(null);
+                    img.src = url;
+                });
+            }
+
+            async function startSlideshow() {
+                const checked = await Promise.all(requestedOrder.map(checkImage));
+                const bgImages = checked.filter(Boolean);
+
+                if (bgImages.length === 0) {
+                    const fallbackChecked = await Promise.all(fallbackImages.map(checkImage));
+                    bgImages.push(...fallbackChecked.filter(Boolean));
+                }
+
+                if (bgImages.length === 0) return;
+
+                slides[activeSlideIndex].style.backgroundImage = `url('${bgImages[imageIndex]}')`;
+                imageIndex = (imageIndex + 1) % bgImages.length;
+
+                setInterval(() => {
+                    const current = slides[activeSlideIndex];
+                    const next = slides[1 - activeSlideIndex];
+
+                    next.style.backgroundImage = `url('${bgImages[imageIndex]}')`;
+                    next.classList.add('is-active');
+                    current.classList.remove('is-active');
+
+                    imageIndex = (imageIndex + 1) % bgImages.length;
+                    activeSlideIndex = 1 - activeSlideIndex;
+                }, switchInterval);
+            }
+
+            startSlideshow();
+        })();
+
         /* ========== 爱心背景 ========== */
         function createHeart() {
             const heart = document.createElement('div');
